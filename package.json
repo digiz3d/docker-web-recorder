@@ -1,0 +1,19 @@
+{
+  "name": "docker-web-recorder",
+  "version": "0.0.1",
+  "description": "Docker container that can record web pages with sound",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/index.ts"
+  },
+  "dependencies": {
+    "puppeteer": "^19.11.1",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.3",
+    "typescript": "^5.0.4"
+  }
+}
