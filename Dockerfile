@@ -12,9 +12,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libgbm1 \
     libxkbcommon0 \
     ffmpeg \
-    wget \
-    && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
-    && apt install ./google-chrome-stable_current_amd64.deb -y \
+    chromium \
     && rm -rf /var/lib/apt/lists/*
 
 ENV DISPLAY=":99.0"
