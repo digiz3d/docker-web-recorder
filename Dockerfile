@@ -13,6 +13,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     libxkbcommon0 \
     ffmpeg \
     chromium \
+    fonts-noto-color-emoji \
     && rm -rf /var/lib/apt/lists/*
 
 ENV DISPLAY=":99.0"
