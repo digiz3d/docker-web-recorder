@@ -48,7 +48,7 @@ async function main() {
   )
   const ffmpegCmd =
     `ffmpeg -y -hide_banner -async 1 -nostdin -s 1280x720 -r 30 -draw_mouse 0
-    -f x11grab -i :99.0
+    -f x11grab -i $DISPLAY
     -f pulse -ac 2 -i default
     -c:v libx264 -preset ultrafast -minrate 6000 -maxrate 6000 -g 12000
     -c:a aac -b:a 192k -ac 2 -ar 44100
