@@ -129,4 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+.DS_Store
+
 recordings/
