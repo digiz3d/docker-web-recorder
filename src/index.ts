@@ -10,7 +10,7 @@ async function main() {
     process.exit(1)
   }
   const browser = await puppeteer.launch({
-    executablePath: "/usr/bin/chromium",
+    executablePath: "/usr/bin/chromium-browser",
     headless: false,
     ignoreDefaultArgs: ["--mute-audio", "--enable-automation"],
     defaultViewport: {

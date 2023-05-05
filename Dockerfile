@@ -1,20 +1,11 @@
-FROM node:20-bullseye-slim
+FROM node:20.1.0-alpine3.17
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+RUN apk update && apk upgrade --available && apk add --no-cache \
     pulseaudio \
     xvfb \
-    libnss3 \
-    libatk1.0-0 \
-    libatk-bridge2.0-0 \
-    libcups2 \
-    libxcomposite1 \
-    libxrandr2 \
-    libgbm1 \
-    libxkbcommon0 \
     ffmpeg \
     chromium \
-    fonts-noto-color-emoji \
-    && rm -rf /var/lib/apt/lists/*
+    font-noto-emoji
 
 ENV DISPLAY=":99.0"
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
