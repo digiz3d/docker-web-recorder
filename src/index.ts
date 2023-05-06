@@ -1,14 +1,20 @@
 import * as puppeteer from "puppeteer"
 import { execSync } from "child_process"
+import { outputToFFmpegParams } from "./ffmpeg"
 
 const url = process.env.URL
 const duration = process.env.DURATION || 10
+const output = process.env.OUTPUT || "output.mp4"
+const rate = process.env.RATE || 6000
+
 
 async function main() {
   if (!url) {
     console.error("URL environment variable is required")
     process.exit(1)
   }
+  const ffmpegOutputParams = outputToFFmpegParams(output)
+
   const browser = await puppeteer.launch({
     executablePath: "/usr/bin/chromium-browser",
     headless: false,
@@ -46,13 +52,17 @@ async function main() {
     } catch (e) {}
     `,
   )
+
   const ffmpegCmd =
     `ffmpeg -y -hide_banner -async 1 -nostdin -s 1280x720 -r 30 -draw_mouse 0
     -f x11grab -i $DISPLAY
     -f pulse -ac 2 -i default
-    -c:v libx264 -preset ultrafast -minrate 6000 -maxrate 6000 -g 12000
+    -c:v libx264 -preset ultrafast -b:v ${rate}k -minrate ${rate}k -maxrate ${rate}k -g 30
     -c:a aac -b:a 192k -ac 2 -ar 44100
-    -ss 00:00:05 -t ${duration} ./recordings/output.mp4`.replaceAll(/[\n\r\s]+/gm, " ")
+    -ss 00:00:05 -t ${duration} ${ffmpegOutputParams}`.replaceAll(
+      /[\n\r\s]+/gm,
+      " ",
+    )
 
   execSync(ffmpegCmd)
 
