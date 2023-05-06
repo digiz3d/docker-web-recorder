@@ -1,47 +1,47 @@
-import * as puppeteer from "puppeteer"
-import { execSync } from "child_process"
-import { outputToFFmpegParams } from "./ffmpeg"
+import * as puppeteer from 'puppeteer'
+import { execSync } from 'child_process'
+import { outputToFFmpegParams } from './ffmpeg'
 
 const url = process.env.URL
 const duration = process.env.DURATION || 10
-const output = process.env.OUTPUT || "output.mp4"
+const output = process.env.OUTPUT || 'output.mp4'
 const rate = process.env.RATE || 6000
 
 
 async function main() {
   if (!url) {
-    console.error("URL environment variable is required")
+    console.error('URL environment variable is required')
     process.exit(1)
   }
   const ffmpegOutputParams = outputToFFmpegParams(output)
 
   const browser = await puppeteer.launch({
-    executablePath: "/usr/bin/chromium-browser",
+    executablePath: '/usr/bin/chromium-browser',
     headless: false,
-    ignoreDefaultArgs: ["--mute-audio", "--enable-automation"],
+    ignoreDefaultArgs: ['--mute-audio', '--enable-automation'],
     defaultViewport: {
       width: 1280,
       height: 720,
     },
     args: [
-      "--no-sandbox",
-      "--disable-gpu",
-      "--disable-setuid-sandbox",
-      "--no-first-run",
-      "--disable-dev-shm-usage",
-      "--disable-default-apps",
-      "--use-fake-ui-for-media-stream",
-      "--use-fake-device-for-media-stream",
-      "--autoplay-policy=no-user-gesture-required",
-      "--window-size=1280,720",
-      "--window-position=0,0",
-      "--kiosk",
+      '--no-sandbox',
+      '--disable-gpu',
+      '--disable-setuid-sandbox',
+      '--no-first-run',
+      '--disable-dev-shm-usage',
+      '--disable-default-apps',
+      '--use-fake-ui-for-media-stream',
+      '--use-fake-device-for-media-stream',
+      '--autoplay-policy=no-user-gesture-required',
+      '--window-size=1280,720',
+      '--window-position=0,0',
+      '--kiosk',
     ],
   })
 
   const page = await browser.newPage()
-  page.on("console", (msg) => console.log(msg.text()))
-  await page.goto(url, { waitUntil: "domcontentloaded" })
+  page.on('console', (msg) => console.log(msg.text()))
+  await page.goto(url, { waitUntil: 'domcontentloaded' })
   await new Promise((resolve) => setTimeout(resolve, 2000))
   // this can be used to unmute a video, or anything else needed
   await page.evaluate(
@@ -61,7 +61,7 @@ async function main() {
     -c:a aac -b:a 192k -ac 2 -ar 44100
     -ss 00:00:05 -t ${duration} ${ffmpegOutputParams}`.replaceAll(
       /[\n\r\s]+/gm,
-      " ",
+      ' ',
     )
 
   execSync(ffmpegCmd)

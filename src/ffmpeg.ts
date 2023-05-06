@@ -3,13 +3,13 @@ export function outputToFFmpegParams(output: string) {
     throw new Error("The output path can't contain spaces")
   }
 
-  if (output.endsWith(".mp4")) {
+  if (output.endsWith('.mp4')) {
     return `./recordings/${output}`
-  } else if (output.startsWith("rtmp://")) {
+  } else if (output.startsWith('rtmp://')) {
     return `-pix_fmt yuv420p -f flv ${output}`
   } else {
     throw new Error(
-      "Invalid output string. Should be either xxxx.mp4 or rtmp://xxxx",
+      'Invalid output string. Should be either xxxx.mp4 or rtmp://xxxx',
     )
   }
 }
