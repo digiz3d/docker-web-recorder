@@ -5,7 +5,7 @@ Docker image to record or stream a website with video and sound.
 TODO:
 
 - [x] stream the webpage
-- [ ] record to mp4
+- [x] record to mp4
 - [ ] upload the file
 
 # Building the image
