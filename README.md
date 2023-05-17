@@ -19,7 +19,7 @@ docker build -t docker-web-recorder:latest .
 ## Record a file
 
 ```bash
-docker run -v /absolute/path/to/your/recordings:/app/recordings --rm -e OUTPUT=video.mp4 -e URL=https://xxxxx.com/video/123456 -e DURATION=25 -it docker-web-recorder:latest
+docker run --rm -v /absolute/path/to/your/recordings:/app/recordings -e OUTPUT=video.mp4 -e URL=https://xxxxx.com/video/123456 -e DURATION=25 -it docker-web-recorder:latest
 ```
 
 ## Make a livestream

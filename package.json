@@ -1,5 +1,6 @@
 {
   "name": "docker-web-recorder",
+  "private": true,
   "version": "0.0.1",
   "description": "Docker container that can record web pages with sound",
   "main": "src/index.ts",
