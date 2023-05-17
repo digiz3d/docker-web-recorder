@@ -14,31 +14,9 @@ jobs:
         with:
           release-type: node
           package-name: docker-web-recorder
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-  get-release:
+  publish-docker:
     needs: release-please
     if: ${{ needs.release-please.outputs.releases_created }}
-    runs-on: ubuntu-latest
-    outputs:
-      release_id: ${{ steps.get-last-release.outputs.result }}
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - name: get version
-        run: echo "PACKAGE_VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_ENV
-      - id: get-last-release
-        name: Get last release
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const { data } = await github.rest.repos.getReleaseByTag({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              tag: `v${process.env.PACKAGE_VERSION}`
-            })
-            return data.id
-  publish-docker:
-    needs: get-release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
