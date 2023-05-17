@@ -1,7 +1,7 @@
 {
   "name": "docker-web-recorder",
   "private": true,
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Docker container that can record web pages with sound",
   "main": "src/index.ts",
   "license": "MIT",
