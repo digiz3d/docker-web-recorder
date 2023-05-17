@@ -11,7 +11,9 @@ async function main() {
   if (!resolution)
     throw new Error('RESOLUTION environment variable is required')
 
-  const [resolutionWidth, resolutionHeight] = resolution.split('x')
+  const resolutionSplit = resolution.split('x')
+  const resolutionWidth = parseInt(resolutionSplit[0], 10)
+  const resolutionHeight = parseInt(resolutionSplit[1], 10)
   if (!resolutionWidth || !resolutionHeight)
     throw new Error('RESOLUTION must be in the format of 1280x720')
 
@@ -27,8 +29,8 @@ async function main() {
     headless: false,
     ignoreDefaultArgs: ['--mute-audio', '--enable-automation'],
     defaultViewport: {
-      width: parseInt(resolutionWidth, 10),
-      height: parseInt(resolutionHeight, 10),
+      width: resolutionWidth,
+      height: resolutionHeight,
     },
     args: [
       '--no-sandbox',
