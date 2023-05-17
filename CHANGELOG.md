@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/digiz3d/docker-web-recorder/compare/v1.0.0...v1.1.0) (2023-05-17)
+
+
+### Features
+
+* add custom resolution support ([#7](https://github.com/digiz3d/docker-web-recorder/issues/7)) ([2edf05e](https://github.com/digiz3d/docker-web-recorder/commit/2edf05e476178b4ba863caf9c94ea4b9b3734d22))
+
 ## 1.0.0 (2023-05-17)
 
 
