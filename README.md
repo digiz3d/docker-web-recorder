@@ -2,12 +2,6 @@
 
 Docker image to record or stream a website with video and sound.
 
-TODO:
-
-- [x] stream the webpage
-- [x] record to mp4
-- [ ] upload the file
-
 # Building the image
 
 ```bash
@@ -39,12 +33,25 @@ For instance if you plan on streaming to Twitch, set the OUTPUT to something lik
 ## Variables
 
 `DURATION` is the lenght of the recording. No value means infinite  
-`GOOGLE_APPLICATION_CREDENTIALS` used if you output to `gs://something`  
+`GOOGLE_APPLICATION_CREDENTIALS` used if you output to Cloud Storage, using `gs://`  
 `OUTPUT` is the output file/stream. Can either start with `rtmp://`, `gs://` or end with `.mp4`. Defaults to `output.mp4`  
 `RATE` is the constant bitrate (CBR) used for the video. Defaults to `6000`  
 `RESOLUTION` is the resolution of the video. Defaults to `1280x720`  
-`URL` is the webpage to record. Required.  
+`URL` is the webpage to record. Required.
 
-# Implementation details
+# Contributing
 
-For now the first few seconds are cut because of an audio noise
+Feel free to open an issue if you have any question or suggestion.  
+PRs are welcome, especially for the following points :clap:
+
+- [x] RTMP(s) stream
+- [x] record to mp4
+- [ ] upload the file
+  - [x] to GCS
+  - [ ] to S3
+- [ ] configuration
+  - [x] resolution
+  - [ ] bitrate
+  - [ ] framerate
+  - [ ] audio
+  - [ ] video codec

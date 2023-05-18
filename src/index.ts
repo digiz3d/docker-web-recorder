@@ -68,7 +68,7 @@ async function main() {
     -f pulse -ac 2 -i default
     -c:v libx264 -preset veryfast -tune zerolatency -b:v ${rate}k -minrate ${rate}k -maxrate ${rate}k -g 30
     -c:a aac -b:a 128k -ac 2 -ar 44100
-    -ss 00:00:05 ${ffmpegDurationParams} -pix_fmt yuv420p ${exporter.getFFmpegOutputParams()}`.replaceAll(
+    -ss 00:00:03 ${ffmpegDurationParams} -pix_fmt yuv420p ${exporter.getFFmpegOutputParams()}`.replaceAll(
       /[\n\r\s]+/gm,
       ' ',
     )
