@@ -1,6 +1,7 @@
 import * as puppeteer from 'puppeteer-core'
 import { execSync } from 'child_process'
-import { durationToFFmpegParams, outputToFFmpegParams } from './ffmpeg'
+import { durationToFFmpegParams } from './ffmpeg'
+import getExporter from './exporters'
 
 const url = process.env.URL
 const resolution = process.env.RESOLUTION
@@ -17,9 +18,8 @@ async function main() {
   if (!resolutionWidth || !resolutionHeight)
     throw new Error('RESOLUTION must be in the format of 1280x720')
 
-  const ffmpegOutputParams = outputToFFmpegParams(
-    process.env.OUTPUT || 'output.mp4',
-  )
+  const exporter = getExporter(process.env.OUTPUT || 'output.mp4')
+
   const ffmpegDurationParams = durationToFFmpegParams(
     process.env.DURATION || '',
   )
@@ -68,7 +68,7 @@ async function main() {
     -f pulse -ac 2 -i default
     -c:v libx264 -preset veryfast -tune zerolatency -b:v ${rate}k -minrate ${rate}k -maxrate ${rate}k -g 30
     -c:a aac -b:a 128k -ac 2 -ar 44100
-    -ss 00:00:05 ${ffmpegDurationParams} ${ffmpegOutputParams}`.replaceAll(
+    -ss 00:00:05 ${ffmpegDurationParams} -pix_fmt yuv420p ${exporter.getFFmpegOutputParams()}`.replaceAll(
       /[\n\r\s]+/gm,
       ' ',
     )
@@ -76,6 +76,8 @@ async function main() {
   execSync(ffmpegCmd)
 
   await browser.close()
+
+  await exporter.finishExport()
 }
 
 main().catch((err) => {
