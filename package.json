@@ -3,18 +3,19 @@
   "private": true,
   "version": "1.1.1",
   "description": "Docker container that can record web pages with sound",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "build": "tsc"
   },
   "dependencies": {
+    "@google-cloud/storage": "^6.10.1",
     "puppeteer-core": "^20.2.1",
-    "ts-node": "^10.9.1"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^18.16.13",
+    "@types/uuid": "^9.0.1",
     "typescript": "^5.0.4"
   }
 }

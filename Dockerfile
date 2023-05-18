@@ -12,10 +12,12 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
 
 WORKDIR /app
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --prod
-COPY src tsconfig.json ./
+RUN yarn install --frozen-lockfile
+COPY . .
+RUN yarn build && rm -rf src && yarn install --frozen-lockfile --prod
+
 COPY docker-entrypoint.sh /usr/local/bin/
 
 USER node
 ENTRYPOINT [ "docker-entrypoint.sh" ]
-CMD ["node", "-r", "ts-node/register", "./src/index.ts"]
+CMD ["node", "./dist/index.js"]
