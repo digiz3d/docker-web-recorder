@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/digiz3d/docker-web-recorder/compare/v1.1.0...v1.1.1) (2023-05-18)
+
+
+### Bug Fixes
+
+* correctly copy entrypoint ([609e64a](https://github.com/digiz3d/docker-web-recorder/commit/609e64a9a9fa437944e9d1ef422a0dee5c08db30))
+* use correct entrypoint to work on windows ([4f422c3](https://github.com/digiz3d/docker-web-recorder/commit/4f422c3a80e3986a6bcf1148e10796d54b592334))
+
 ## [1.1.0](https://github.com/digiz3d/docker-web-recorder/compare/v1.0.0...v1.1.0) (2023-05-17)
 
 
