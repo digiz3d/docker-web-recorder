@@ -1,49 +1,57 @@
-import { Storage } from '@google-cloud/storage'
+import { Bucket, Storage } from '@google-cloud/storage'
 
 import FileExporter from './file'
 
 export default class CloudStorageExporter extends FileExporter {
-  private cloudStorage: Storage = new Storage()
+  private bucket: Bucket
+  private storage: Storage
 
   constructor(protected output: string) {
     super(output)
-    this.cloudStorage = new Storage({
-      credentials: CloudStorageExporter.getCredentials(),
-    })
-  }
-
-  private static getCredentials() {
-    if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-      throw new Error(
-        'GOOGLE_APPLICATION_CREDENTIALS environment variable is required to use Cloud Storage',
-      )
-    }
-    try {
-      return JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS)
-    } catch (e) {
-      console.warn(
-        'Could not parse GOOGLE_APPLICATION_CREDENTIALS as JSON, trying base64',
-      )
-      return JSON.parse(
-        Buffer.from(
-          process.env.GOOGLE_APPLICATION_CREDENTIALS,
-          'base64',
-        ).toString('ascii'),
-      )
-    }
+    this.storage = CloudStorageExporter.getStorage()
+    const bucketName = this.output.split('/')[2]
+    this.bucket = this.storage.bucket(bucketName)
   }
 
   getFFmpegOutputParams() {
-    return this.getLocalOutputFilePath()
+    return this.getTemporaryFilePath()
   }
 
-  async finishExport() {
-    const bucketName = this.output.split('/')[2]
-    const bucket = this.cloudStorage.bucket(bucketName)
-    const destination = this.output.split('/').slice(3).join('/')
+  async initializeExport() {
+    const [bucketExists] = await this.bucket.exists()
+    if (bucketExists) return
+    try {
+      await this.bucket.create()
+    } catch (e) {
+      console.error('Could not create the bucket: ', e)
+      throw e
+    }
+  }
 
-    await bucket.upload(this.getLocalOutputFilePath(), {
+  async finalizeExport() {
+    const destination = this.output.split('/').slice(3).join('/')
+    await this.bucket.upload(this.getTemporaryFilePath(), {
       destination,
     })
+  }
+
+  private static getStorage() {
+    if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) return new Storage()
+    return new Storage({
+      credentials: CloudStorageExporter.getCredentials(
+        process.env.GOOGLE_APPLICATION_CREDENTIALS,
+      ),
+    })
+  }
+
+  private static getCredentials(credentials: string) {
+    try {
+      return JSON.parse(credentials)
+    } catch {
+      console.warn(
+        'Could not parse GOOGLE_APPLICATION_CREDENTIALS as JSON, trying base64',
+      )
+      return JSON.parse(Buffer.from(credentials, 'base64').toString('ascii'))
+    }
   }
 }

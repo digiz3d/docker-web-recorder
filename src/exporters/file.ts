@@ -1,26 +1,38 @@
-import { dirname } from 'path'
 import { mkdirSync, renameSync } from 'fs'
-import { v4 } from 'uuid'
+import { dirname } from 'path'
+
+import { v4 as uuidv4 } from 'uuid'
 
 import Exporter from './exporter'
 
 export default class FileExporter extends Exporter {
-  protected outputLocalFilename: string
+  private temporaryLocalFilename: string
   constructor(protected output: string) {
     super(output)
-    this.outputLocalFilename = `${v4()}.mp4`
+    this.temporaryLocalFilename = `${uuidv4()}.mp4`
   }
 
   getFFmpegOutputParams() {
-    mkdirSync(dirname(`./recordings/${this.output}`), { recursive: true })
-    return this.getLocalOutputFilePath()
+    return this.getTemporaryFilePath()
   }
 
-  protected getLocalOutputFilePath() {
-    return `./recordings/${this.outputLocalFilename}`
+  initializeExport() {
+    mkdirSync(dirname(this.getFinalOutputPath()), { recursive: true })
   }
 
-  async finishExport() {
-    renameSync(this.getLocalOutputFilePath(), `./recordings/${this.output}`)
+  finalizeExport() {
+    renameSync(this.getTemporaryFilePath(), this.getFinalOutputPath())
+  }
+
+  protected getTemporaryFilePath() {
+    return `${this.getOutputDirPath()}/${this.temporaryLocalFilename}`
+  }
+
+  private getFinalOutputPath() {
+    return `${this.getOutputDirPath()}/${this.output}`
+  }
+
+  private getOutputDirPath() {
+    return './recordings'
   }
 }
