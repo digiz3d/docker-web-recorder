@@ -13,7 +13,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --prod
-COPY . .
+COPY src tsconfig.json ./
 COPY docker-entrypoint.sh /usr/local/bin/
 
 USER node
