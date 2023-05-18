@@ -14,6 +14,7 @@ WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --prod
 COPY . .
+COPY docker-entrypoint.sh /usr/local/bin/
 
 USER node
 ENTRYPOINT [ "docker-entrypoint.sh" ]
