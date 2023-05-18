@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/sh
 set -e
 export RESOLUTION="${RESOLUTION:=1280x720}"
 
