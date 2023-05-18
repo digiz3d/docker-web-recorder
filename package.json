@@ -10,7 +10,7 @@
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
-    "puppeteer": "^19.11.1",
+    "puppeteer-core": "^20.2.1",
     "ts-node": "^10.9.1"
   },
   "devDependencies": {

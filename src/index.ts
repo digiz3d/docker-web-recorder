@@ -1,4 +1,4 @@
-import * as puppeteer from 'puppeteer'
+import * as puppeteer from 'puppeteer-core'
 import { execSync } from 'child_process'
 import { durationToFFmpegParams, outputToFFmpegParams } from './ffmpeg'
 
@@ -66,8 +66,8 @@ async function main() {
     `ffmpeg -y -hide_banner -async 1 -nostdin -s ${resolution} -r 30 -draw_mouse 0
     -f x11grab -i $DISPLAY
     -f pulse -ac 2 -i default
-    -c:v libx264 -preset ultrafast -b:v ${rate}k -minrate ${rate}k -maxrate ${rate}k -g 30
-    -c:a aac -b:a 192k -ac 2 -ar 44100
+    -c:v libx264 -preset veryfast -tune zerolatency -b:v ${rate}k -minrate ${rate}k -maxrate ${rate}k -g 30
+    -c:a aac -b:a 128k -ac 2 -ar 44100
     -ss 00:00:05 ${ffmpegDurationParams} ${ffmpegOutputParams}`.replaceAll(
       /[\n\r\s]+/gm,
       ' ',
