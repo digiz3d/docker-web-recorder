@@ -15,7 +15,7 @@ COPY package.json yarn.lock tsconfig.json ./
 RUN yarn install --frozen-lockfile
 COPY docker-entrypoint.sh /usr/local/bin/
 COPY src src
-RUN yarn build && rm -rf src && yarn install --frozen-lockfile --prod && mkdir recordings && chmod 777 recordings
+RUN yarn build && rm -rf src && yarn install --frozen-lockfile --prod && yarn cache clean && mkdir recordings && chmod 777 recordings
 
 USER node
 ENTRYPOINT [ "docker-entrypoint.sh" ]
