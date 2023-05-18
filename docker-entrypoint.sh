@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-
+set -e
 export RESOLUTION="${RESOLUTION:=1280x720}"
 
 RESOLUTION_W=$(echo $RESOLUTION | cut -d'x' -f1)
