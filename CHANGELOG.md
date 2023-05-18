@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/digiz3d/docker-web-recorder/compare/v1.1.1...v1.2.0) (2023-05-18)
+
+
+### Features
+
+* add support for Google Cloud Storage ([#17](https://github.com/digiz3d/docker-web-recorder/issues/17)) ([b5e3147](https://github.com/digiz3d/docker-web-recorder/commit/b5e3147ac6886386aba68ac687c2322b7733f299))
+
 ## [1.1.1](https://github.com/digiz3d/docker-web-recorder/compare/v1.1.0...v1.1.1) (2023-05-18)
 
 
