@@ -16,5 +16,5 @@ RUN yarn install --frozen-lockfile --prod
 COPY . .
 
 USER node
-ENTRYPOINT [ "./docker-entrypoint.sh" ]
+ENTRYPOINT [ "docker-entrypoint.sh" ]
 CMD ["node", "-r", "ts-node/register", "./src/index.ts"]
