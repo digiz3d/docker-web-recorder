@@ -1,7 +1,9 @@
-import * as puppeteer from 'puppeteer-core'
 import { execSync } from 'child_process'
-import { durationToFFmpegParams } from './ffmpeg'
+
+import * as puppeteer from 'puppeteer-core'
+
 import getExporter from './exporters'
+import { durationToFFmpegParams } from './ffmpeg'
 
 const url = process.env.URL
 const resolution = process.env.RESOLUTION
@@ -19,6 +21,7 @@ async function main() {
     throw new Error('RESOLUTION must be in the format of 1280x720')
 
   const exporter = getExporter(process.env.OUTPUT || 'output.mp4')
+  await exporter.initializeExport()
 
   const ffmpegDurationParams = durationToFFmpegParams(
     process.env.DURATION || '',
@@ -77,7 +80,7 @@ async function main() {
 
   await browser.close()
 
-  await exporter.finishExport()
+  await exporter.finalizeExport()
 }
 
 main().catch((err) => {

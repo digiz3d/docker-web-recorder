@@ -5,5 +5,11 @@ export default class RTMPExporter extends Exporter {
     return `-f flv ${this.output}`
   }
 
-  finishExport() {}
+  initializeExport() {
+    // Do nothing
+  }
+
+  finalizeExport() {
+    // Do nothing
+  }
 }

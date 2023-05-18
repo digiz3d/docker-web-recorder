@@ -11,12 +11,11 @@ ENV DISPLAY=":99.0"
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
 
 WORKDIR /app
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock tsconfig.json ./
 RUN yarn install --frozen-lockfile
-COPY . .
-RUN yarn build && rm -rf src && yarn install --frozen-lockfile --prod
-
 COPY docker-entrypoint.sh /usr/local/bin/
+COPY src src
+RUN yarn build && rm -rf src && yarn install --frozen-lockfile --prod && mkdir recordings && chmod 777 recordings
 
 USER node
 ENTRYPOINT [ "docker-entrypoint.sh" ]

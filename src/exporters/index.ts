@@ -1,8 +1,9 @@
 import CloudStorageExporter from './cloud-storage'
+import Exporter from './exporter'
 import FileExporter from './file'
 import RTMPExporter from './rtmp'
 
-export default function getExporter(output: string) {
+export default function getExporter(output: string): Exporter {
   if (output.startsWith('rtmp://') || output.startsWith('rtmps://')) {
     return new RTMPExporter(output)
   }
@@ -19,4 +20,3 @@ export default function getExporter(output: string) {
   }
   return new FileExporter(output)
 }
-
