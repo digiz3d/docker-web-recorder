@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/digiz3d/docker-web-recorder/compare/v1.2.0...v1.2.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* **deps:** update dependency puppeteer-core to v20.3.0 ([#21](https://github.com/digiz3d/docker-web-recorder/issues/21)) ([0e4b4f3](https://github.com/digiz3d/docker-web-recorder/commit/0e4b4f31b70571ace403d585fdca0d5c33d6998e))
+
 ## [1.2.0](https://github.com/digiz3d/docker-web-recorder/compare/v1.1.1...v1.2.0) (2023-05-18)
 
 
