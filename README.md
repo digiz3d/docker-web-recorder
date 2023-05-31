@@ -30,7 +30,7 @@ The `GOOGLE_APPLICATION_CREDENTIALS` environment variable can be used if you pre
 docker run --rm -e OUTPUT=rtmp://example.com/app/your_key_here -e URL=https://example.com/video/123456 -e RATE=1000 -e DURATION=120 -it docker-web-recorder:latest
 ```
 
-For instance if you plan on streaming to Twitch, set the OUTPUT to something like `rtmp://cdg10.contribute.live-video.net/app/live_blablabla`. Depends on [the best Twitch ingest server](https://stream.twitch.tv/ingests) for you.
+For instance if you plan on streaming to Twitch, set the OUTPUT to something like `rtmp://cdg10.contribute.live-video.net/app/live_blablabla`. Depends on [the best Twitch ingest server](https://help.twitch.tv/s/twitch-ingest-recommendation?language=en_US) for you.
 
 ## Variables
 
