@@ -1,5 +1,14 @@
 # Docker Web Recorder
 
+<p align="center">
+  <a href="https://hub.docker.com/r/digiz3d/web-recorder  " alt="Latest docker image version">
+    <img src="https://img.shields.io/docker/v/digiz3d/web-recorder/latest" />
+  </a>
+  <a href="https://hub.docker.com/r/digiz3d/web-recorder" alt="Docker pulls">
+    <img src="https://img.shields.io/docker/pulls/digiz3d/web-recorder" />
+  </a>
+</p>
+
 Docker image to record or stream a website with video and sound.
 
 # Building the image
