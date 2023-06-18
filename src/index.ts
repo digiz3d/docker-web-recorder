@@ -59,7 +59,7 @@ async function main() {
   await page.evaluate(
     `
     try {
-    const volumeButton = document.querySelector("div.flex.cursor-pointer.items-center.justify-center.gap-2.rounded-2xl.border.border-offwhite-150.bg-black.bg-opacity-10.p-2");
+    const volumeButton = document.querySelector("div.flex.cursor-pointer.items-center.justify-center.gap-2.rounded-2xl.border.border-black-130.bg-black.bg-opacity-10.p-2");
     volumeButton.children[0].click()
     } catch (e) {}
     `,
