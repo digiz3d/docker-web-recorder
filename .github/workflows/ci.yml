@@ -38,4 +38,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: leandredaumont/docker-web-recorder:latest,leandredaumont/docker-web-recorder:${{steps.get_version.outputs.package_version}}
+          tags: digiz3d/web-recorder:latest,digiz3d/web-recorder:${{steps.get_version.outputs.package_version}}
