@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2](https://github.com/digiz3d/docker-web-recorder/compare/v1.2.1...v1.2.2) (2023-06-18)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @google-cloud/storage to v6.11.0 ([#29](https://github.com/digiz3d/docker-web-recorder/issues/29)) ([be38663](https://github.com/digiz3d/docker-web-recorder/commit/be386638710b156a00d2f06c38d780a9c423ec0e))
+* revert to a working base image ([5b7c82d](https://github.com/digiz3d/docker-web-recorder/commit/5b7c82dc131da87ff088e3ee3d6fbf6628f72ad6))
+
 ## [1.2.1](https://github.com/digiz3d/docker-web-recorder/compare/v1.2.0...v1.2.1) (2023-05-22)
 
 
