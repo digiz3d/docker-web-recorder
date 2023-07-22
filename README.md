@@ -43,7 +43,7 @@ For instance if you plan on streaming to Twitch, set the OUTPUT to something lik
 
 ## Variables
 
-`DURATION` is the lenght of the recording. No value means infinite  
+`DURATION` is the length of the recording. No value means infinite  
 `GOOGLE_APPLICATION_CREDENTIALS` optional. Can be used instead of Application Default Credentials when using GCS.  
 `OUTPUT` is the output file/stream. Can either start with `rtmp://`, `gs://` or end with `.mp4`. Defaults to `output.mp4`  
 `RATE` is the constant bitrate (CBR) used for the video. Defaults to `6000`  
