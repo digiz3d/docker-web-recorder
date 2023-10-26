@@ -12,7 +12,7 @@
   "dependencies": {
     "@google-cloud/storage": "^6.10.1",
     "puppeteer-core": "^20.2.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^18.16.13",
