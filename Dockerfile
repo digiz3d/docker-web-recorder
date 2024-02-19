@@ -1,4 +1,4 @@
-FROM node:20.2.0-alpine3.18
+FROM node:20.11.1-alpine3.18
 
 RUN apk update && apk upgrade --available && apk add --no-cache \
     pulseaudio \
