@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@google-cloud/storage": "^6.10.1",
+    "aws-sdk": "^2.1682.0",
     "puppeteer-core": "^20.2.1",
     "uuid": "^9.0.0"
   },

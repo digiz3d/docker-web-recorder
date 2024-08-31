@@ -1,4 +1,5 @@
 import CloudStorageExporter from './cloud-storage'
+import S3StoraegExporter from './s3-storage'
 import Exporter from './exporter'
 import FileExporter from './file'
 import RTMPExporter from './rtmp'
@@ -16,7 +17,7 @@ export default function getExporter(output: string): Exporter {
     return new CloudStorageExporter(output)
   }
   if (output.startsWith('s3://')) {
-    throw new Error('AWS S3 is not supported yet')
+	return new S3StoraegExporter(output)
   }
   return new FileExporter(output)
 }

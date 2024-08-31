@@ -33,6 +33,14 @@ docker run --rm -e OUTPUT=gs://somebucket/path/video.mp4 -e GOOGLE_APPLICATION_C
 
 The `GOOGLE_APPLICATION_CREDENTIALS` environment variable can be used if you prefer providing a JSON key instead of using Application Default Credentials.
 
+## Record and send to AWS S3 Storage
+
+```bash
+docker run --rm -e OUTPUT=s3://yourbucket/path/video.mp4 -e AWS_ACCESS_KEY_ID=your-access-key -e AWS_SECRET_ACCESS_KEY=your-secret-key -e AWS_REGION=your-region -e URL=https://example.com/video/123456 -e DURATION=25 -it docker-web-recorder:latest
+```
+
+The `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_REGION` environment variables must be set to upload files to AWS S3.
+
 ## Make a livestream
 
 ```bash
@@ -45,6 +53,7 @@ For instance if you plan on streaming to Twitch, set the OUTPUT to something lik
 
 `DURATION` is the length of the recording. No value means infinite  
 `GOOGLE_APPLICATION_CREDENTIALS` optional. Can be used instead of Application Default Credentials when using GCS.  
+`AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_REGION` are required when using S3.
 `OUTPUT` is the output file/stream. Can either start with `rtmp://`, `gs://` or end with `.mp4`. Defaults to `output.mp4`  
 `RATE` is the constant bitrate (CBR) used for the video. Defaults to `6000`  
 `RESOLUTION` is the resolution of the video. Defaults to `1280x720`  
@@ -57,9 +66,9 @@ PRs are welcome, especially for the following points :clap:
 
 - [x] RTMP(s) stream
 - [x] record to mp4
-- [ ] upload the file
+- [x] upload the file
   - [x] to GCS
-  - [ ] to S3
+  - [x] to S3
 - [ ] configuration
   - [x] resolution
   - [ ] bitrate
