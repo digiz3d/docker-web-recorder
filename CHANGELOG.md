@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.3](https://github.com/digiz3d/docker-web-recorder/compare/v1.2.2...v1.2.3) (2024-09-15)
+
+
+### Bug Fixes
+
+* **deps:** bump all dependencies ([#79](https://github.com/digiz3d/docker-web-recorder/issues/79)) ([d809757](https://github.com/digiz3d/docker-web-recorder/commit/d80975735e7b8a090ba31db67d66fbaa17fb37f6))
+* **deps:** update dependency uuid to v9.0.1 ([#51](https://github.com/digiz3d/docker-web-recorder/issues/51)) ([5aeee7f](https://github.com/digiz3d/docker-web-recorder/commit/5aeee7f3ba383d8e73cd5a094a74d2ef61560df5))
+
 ## [1.2.2](https://github.com/digiz3d/docker-web-recorder/compare/v1.2.1...v1.2.2) (2023-06-18)
 
 
