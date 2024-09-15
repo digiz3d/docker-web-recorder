@@ -1,7 +1,6 @@
-import { mkdirSync, renameSync } from 'fs'
-import { dirname } from 'path'
-
-import { v4 as uuidv4 } from 'uuid'
+import { randomUUID } from 'node:crypto'
+import { mkdirSync, renameSync } from 'node:fs'
+import { dirname } from 'node:path'
 
 import Exporter from './exporter'
 
@@ -9,7 +8,7 @@ export default class FileExporter extends Exporter {
   private temporaryLocalFilename: string
   constructor(protected output: string) {
     super(output)
-    this.temporaryLocalFilename = `${uuidv4()}.mp4`
+    this.temporaryLocalFilename = `${randomUUID()}.mp4`
   }
 
   getFFmpegOutputParams() {
