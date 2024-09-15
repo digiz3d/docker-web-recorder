@@ -55,15 +55,16 @@ async function main() {
   page.on('console', (msg) => console.log(msg.text()))
   await page.goto(url, { waitUntil: 'domcontentloaded' })
   await new Promise((resolve) => setTimeout(resolve, 2000))
-  // this can be used to unmute a video, or anything else needed
-  await page.evaluate(
-    `
-    try {
-    const volumeButton = document.querySelector("div.flex.cursor-pointer.items-center.justify-center.gap-2.rounded-2xl.border.border-black-130.bg-black.bg-opacity-10.p-2");
-    volumeButton.children[0].click()
-    } catch (e) {}
-    `,
-  )
+
+  // This can be used to unmute a video, or anything else needed. Example for a show on Voggt:
+  // await page.evaluate(
+  //   `
+  //   try {
+  //   const volumeButton = document.querySelector("div.flex.cursor-pointer.items-center.justify-center.gap-2");
+  //   volumeButton.children[0].click()
+  //   } catch (e) {}
+  //   `,
+  // )
 
   const ffmpegCmd =
     `ffmpeg -y -hide_banner -async 1 -nostdin -s ${resolution} -r 30 -draw_mouse 0
