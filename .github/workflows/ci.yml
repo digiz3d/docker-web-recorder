@@ -2,7 +2,7 @@ name: Release and publish
 on:
   push:
     branches:
-      - fix/ci-avoid-unwanted-release
+      - main
 permissions:
   contents: write
   pull-requests: write
@@ -12,56 +12,29 @@ jobs:
     outputs:
       releases_created: ${{ steps.release-please.outputs.releases_created }}
     steps:
-      - uses: googleapis/release-please-action@v4
+      - uses: google-github-actions/release-please-action@v4
         id: release-please
         with:
           release-type: node
-          target-branch: main
-  test-true:
+  publish-docker:
     needs: release-please
-    if: ${{ needs.release-please.outputs.releases_created == true}}
+    if: ${{ needs.release-please.outputs.releases_created == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo "one"
-  test-false:
-    needs: release-please
-    if: ${{ needs.release-please.outputs.releases_created == false}}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "two"
-  test-true-str:
-    needs: release-please
-    if: ${{ needs.release-please.outputs.releases_created == 'true'}}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "one"
-  test-false-str:
-    needs: release-please
-    if: ${{ needs.release-please.outputs.releases_created == 'false'}}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "two"
-  test-json-true:
-    needs: release-please
-    if: ${{ fromJSON(needs.release-please.outputs.releases_created) == true}}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "one json"
-  test-json-false:
-    needs: release-please
-    if: ${{ fromJSON(needs.release-please.outputs.releases_created) == false}}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "two json"
-  test-json-true-str:
-    needs: release-please
-    if: ${{ fromJSON(needs.release-please.outputs.releases_created) == 'true'}}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "one json"
-  test-json-false-str:
-    needs: release-please
-    if: ${{ fromJSON(needs.release-please.outputs.releases_created) == 'false'}}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "two json"
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - name: get version
+        id: get_version
+        run: echo "package_version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: digiz3d/web-recorder:latest,digiz3d/web-recorder:${{steps.get_version.outputs.package_version}}
