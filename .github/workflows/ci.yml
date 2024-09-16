@@ -19,7 +19,7 @@ jobs:
           target-branch: main
   publish-docker:
     needs: release-please
-    if: ${{ needs.release-please.outputs.releases_created }}
+    if: ${{ fromJson(needs.release-please.outputs.releases_created) == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
