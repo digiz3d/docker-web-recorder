@@ -2,7 +2,7 @@ name: Release and publish
 on:
   push:
     branches:
-      - main
+      - fix/ci-avoid-unwanted-release
 permissions:
   contents: write
   pull-requests: write
@@ -12,11 +12,11 @@ jobs:
     outputs:
       releases_created: ${{ steps.release-please.outputs.releases_created }}
     steps:
-      - uses: google-github-actions/release-please-action@v4
+      - uses: googleapis/release-please-action@v4
         id: release-please
         with:
           release-type: node
-          package-name: docker-web-recorder
+          target-branch: main
   publish-docker:
     needs: release-please
     if: ${{ needs.release-please.outputs.releases_created }}
