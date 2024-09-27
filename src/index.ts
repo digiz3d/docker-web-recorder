@@ -67,10 +67,8 @@ async function main() {
 
   const ffmpegCmd =
     `ffmpeg -y -hide_banner -async 1 -nostdin -s ${resolution} -r 30 -draw_mouse 0
-    -f x11grab -i $DISPLAY
-    -f pulse -ac 2 -i default
+    -f x11grab -thread_queue_size 1024 -i $DISPLAY
     -c:v libx264 -preset veryfast -tune zerolatency -b:v ${rate}k -minrate ${rate}k -maxrate ${rate}k -g 30
-    -c:a aac -b:a 128k -ac 2 -ar 44100
     -ss 00:00:03 ${ffmpegDurationParams} -pix_fmt yuv420p ${exporter.getFFmpegOutputParams()}`.replaceAll(
       /[\n\r\s]+/gm,
       ' ',
