@@ -10,7 +10,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "@google-cloud/storage": "^7.12.1",
+    "@google-cloud/storage": "^7.13.0",
     "puppeteer-core": "^23.3.0"
   },
   "devDependencies": {
