@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/digiz3d/docker-web-recorder/compare/v1.2.3...v1.3.0) (2025-02-16)
+
+
+### Features
+
+* flag to disable audio recording ([#104](https://github.com/digiz3d/docker-web-recorder/issues/104)) ([8b78c22](https://github.com/digiz3d/docker-web-recorder/commit/8b78c22183ff00beffa698d36de57cadcfad70aa))
+
 ## [1.2.3](https://github.com/digiz3d/docker-web-recorder/compare/v1.2.2...v1.2.3) (2024-09-15)
 
 
