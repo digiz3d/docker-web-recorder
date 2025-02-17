@@ -1,4 +1,4 @@
-import { execSync } from 'node:child_process'
+import { spawn } from 'node:child_process'
 
 import * as puppeteer from 'puppeteer-core'
 
@@ -87,11 +87,27 @@ async function main() {
       ' ',
     )
 
-  execSync(ffmpegCmd)
+  const ffmpeg = spawn(ffmpegCmd, { shell: true })
 
-  await browser.close()
+  const forwardSignal = (signal: NodeJS.Signals | number) => {
+    ffmpeg.kill(signal)
+  }
 
-  await exporter.finalizeExport()
+  process.on('SIGINT', forwardSignal)
+  process.on('SIGTERM', forwardSignal)
+
+  await new Promise((resolve, reject) => {
+    ffmpeg.on('exit', async (code) => {
+      await browser.close()
+      await exporter.finalizeExport()
+
+      if (code === 0 || code === null) {
+        resolve(null)
+      } else {
+        reject(new Error(`FFmpeg exited with code ${code}`))
+      }
+    })
+  })
 }
 
 main().catch((err) => {
