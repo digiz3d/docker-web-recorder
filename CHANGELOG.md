@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/digiz3d/docker-web-recorder/compare/v1.3.0...v1.4.0) (2025-02-17)
+
+
+### Features
+
+* support changing the x264 encoder tune ([#114](https://github.com/digiz3d/docker-web-recorder/issues/114)) ([5ca8c32](https://github.com/digiz3d/docker-web-recorder/commit/5ca8c32ae0941fb8ecedce5a971bff6fad202433))
+
+
+### Bug Fixes
+
+* gracefully shutdown FFmpeg on signals ([#112](https://github.com/digiz3d/docker-web-recorder/issues/112)) ([50f6ea0](https://github.com/digiz3d/docker-web-recorder/commit/50f6ea0cc90479f48a691a5ccb1c4954c2a750c2))
+
 ## [1.3.0](https://github.com/digiz3d/docker-web-recorder/compare/v1.2.3...v1.3.0) (2025-02-16)
 
 
