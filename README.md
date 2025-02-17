@@ -49,6 +49,7 @@ For instance if you plan on streaming to Twitch, set the OUTPUT to something lik
 `OUTPUT` is the output file/stream. Can either start with `rtmp://`, `gs://` or end with `.mp4`. Defaults to `output.mp4`  
 `RATE` is the constant bitrate (CBR) used for the video. Defaults to `6000`  
 `RESOLUTION` is the resolution of the video. Defaults to `1280x720`  
+`TUNE` is the FFmpeg libx264 [tune setting](https://trac.ffmpeg.org/wiki/Encode/H.264#Tune). Defaults to `zerolatency`  
 `URL` is the webpage to record. Required.
 
 # Contributing
