@@ -9,6 +9,7 @@ const disableAudio = process.env.DISABLE_AUDIO === 'true'
 const fps = process.env.FPS || 30
 const rate = process.env.RATE || 6000
 const resolution = process.env.RESOLUTION
+const tune = process.env.TUNE || 'zerolatency'
 const url = process.env.URL
 
 async function main() {
@@ -80,7 +81,7 @@ async function main() {
     `ffmpeg -y -loglevel error -hide_banner -async 1 -nostdin -s ${resolution} -r ${fps} -draw_mouse 0
     -f x11grab -i $DISPLAY
     -f pulse -ac 2 -i default
-    -c:v libx264 -preset veryfast -tune zerolatency -b:v ${rate}k -minrate ${rate}k -maxrate ${rate}k -g 30
+    -c:v libx264 -preset veryfast -tune ${tune} -b:v ${rate}k -minrate ${rate}k -maxrate ${rate}k -g 30
     ${audioConfig}
     -ss 00:00:03 ${ffmpegDurationParams} -pix_fmt yuv420p ${exporter.getFFmpegOutputParams()}`.replaceAll(
       /[\n\r\s]+/gm,
