@@ -8,8 +8,8 @@ import { durationToFFmpegParams } from './ffmpeg'
 const disableAudio = process.env.DISABLE_AUDIO === 'true'
 const fps = process.env.FPS || 30
 const rate = process.env.RATE || 6000
-const tune = process.env.TUNE || 'zerolatency'
 const resolution = process.env.RESOLUTION
+const tune = process.env.TUNE || 'zerolatency'
 const url = process.env.URL
 
 async function main() {
