@@ -1,5 +1,8 @@
 #!/bin/sh
 set -e
+
+rm -rf /tmp/.X99-lock /tmp/.X11-unix
+
 export RESOLUTION="${RESOLUTION:=1280x720}"
 
 RESOLUTION_W=$(echo $RESOLUTION | cut -d'x' -f1)
