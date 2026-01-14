@@ -1,0 +1,138 @@
+name: Test RTMP Stream
+
+on:
+  push:
+    branches:
+      - chore/test-rtmp-server
+#   pull_request:
+#     branches:
+#       - main
+#   workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    services:
+      nginx-rtmp:
+        image: alfg/nginx-rtmp:latest
+        ports:
+          - 1935:1935
+          - 8080:8080
+        options: >-
+          --health-cmd "curl -f http://localhost:8080/stat || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: docker-web-recorder:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Determine RTMP host
+        id: rtmp-host
+        shell: bash
+        run: |
+          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
+            echo "rtmp_host=localhost" >> $GITHUB_OUTPUT
+            echo "network_mode=host" >> $GITHUB_OUTPUT
+          else
+            echo "rtmp_host=host.docker.internal" >> $GITHUB_OUTPUT
+            echo "network_mode=default" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Wait for nginx-rtmp to be ready
+        shell: bash
+        run: |
+          timeout=30
+          elapsed=0
+          while [ $elapsed -lt $timeout ]; do
+            if curl -f http://localhost:8080/stat > /dev/null 2>&1; then
+              echo "nginx-rtmp is ready"
+              exit 0
+            fi
+            echo "Waiting for nginx-rtmp... ($elapsed/$timeout seconds)"
+            sleep 2
+            elapsed=$((elapsed + 2))
+          done
+          echo "nginx-rtmp failed to start"
+          exit 1
+
+      - name: Start recorder container
+        shell: bash
+        run: |
+          if [ "${{ steps.rtmp-host.outputs.network_mode }}" = "host" ]; then
+            docker run -d \
+              --name web-recorder \
+              --network host \
+              -e OUTPUT=rtmp://${{ steps.rtmp-host.outputs.rtmp_host }}:1935/live/test_stream \
+              -e URL=https://example.com \
+              -e RESOLUTION=1280x720 \
+              -e DURATION=5 \
+              -e RATE=1000 \
+              docker-web-recorder:test
+          else
+            docker run -d \
+              --name web-recorder \
+              --add-host=host.docker.internal:host-gateway \
+              -e OUTPUT=rtmp://${{ steps.rtmp-host.outputs.rtmp_host }}:1935/live/test_stream \
+              -e URL=https://example.com \
+              -e RESOLUTION=1280x720 \
+              -e DURATION=5 \
+              -e RATE=1000 \
+              docker-web-recorder:test
+          fi
+
+      - name: Monitor stream for 5 seconds
+        shell: bash
+        run: |
+          echo "Waiting for stream to start..."
+          sleep 2
+
+          for i in {1..5}; do
+            echo "Checking stream status (attempt $i/5)..."
+            stat_response=$(curl -s http://localhost:8080/stat || echo "")
+            
+            if echo "$stat_response" | grep -q "test_stream"; then
+              echo "Stream detected in nginx-rtmp stats!"
+              echo "$stat_response"
+              exit 0
+            fi
+            
+            if [ $i -lt 5 ]; then
+              sleep 1
+            fi
+          done
+
+          echo "Stream not detected in nginx-rtmp stats"
+          echo "nginx-rtmp stats:"
+          curl -s http://localhost:8080/stat || echo "Failed to get stats"
+          exit 1
+
+      - name: Check container logs
+        if: always()
+        shell: bash
+        run: |
+          echo "=== Container logs ==="
+          docker logs web-recorder || echo "Failed to get logs"
+
+      - name: Cleanup
+        if: always()
+        shell: bash
+        run: |
+          docker stop web-recorder || true
+          docker rm web-recorder || true
