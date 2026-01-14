@@ -3,7 +3,7 @@ name: Test RTMP Stream
 on:
   push:
     branches:
-      - chore/test-rtmp-server
+      - chore/add-test-rtmp
 #   pull_request:
 #     branches:
 #       - main
