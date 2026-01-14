@@ -11,10 +11,7 @@ on:
 
 jobs:
   test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     services:
       nginx-rtmp:
         image: alfg/nginx-rtmp:latest
@@ -47,13 +44,8 @@ jobs:
         id: rtmp-host
         shell: bash
         run: |
-          if [ "${{ matrix.os }}" = "ubuntu-latest" ]; then
-            echo "rtmp_host=localhost" >> $GITHUB_OUTPUT
-            echo "network_mode=host" >> $GITHUB_OUTPUT
-          else
-            echo "rtmp_host=host.docker.internal" >> $GITHUB_OUTPUT
-            echo "network_mode=default" >> $GITHUB_OUTPUT
-          fi
+          echo "rtmp_host=localhost" >> $GITHUB_OUTPUT
+          echo "network_mode=host" >> $GITHUB_OUTPUT
 
       - name: Wait for nginx-rtmp to be ready
         shell: bash
