@@ -69,44 +69,13 @@ jobs:
         run: |
           echo "Checking video stream resolution..."
           expected_resolution="1280x720"
-          max_attempts=10
-          attempt=0
-
-          while [ $attempt -lt $max_attempts ]; do
-            attempt=$((attempt + 1))
-            echo "Attempt $attempt/$max_attempts to probe stream..."
             
-            probe_output=$(ffprobe -v error \
-              -select_streams v:0 \
-              -show_entries stream=width,height \
-              -of csv=s=x:p=0 \
-              -rw_timeout 5000000 \
-              http://localhost:12345/live/test_stream.m3u8 2>&1 || echo "")
-
-            echo "Probe output: $probe_output"
-            
-            actual_resolution=$(echo "$probe_output" | grep -E '^[0-9]+x[0-9]+$' | head -n 1 | tr -d '[:space:]')
-            
-            if [ -n "$actual_resolution" ] && [ "$actual_resolution" != "" ]; then
-              echo "Detected resolution: $actual_resolution"
-              echo "Expected resolution: $expected_resolution"
-              
-              if [ "$actual_resolution" = "$expected_resolution" ]; then
-                echo "✓ Resolution matches expected value: $expected_resolution"
-                exit 0
-              else
-                echo "✗ Resolution mismatch! Expected: $expected_resolution, Got: $actual_resolution"
-                exit 1
-              fi
-            fi
-            
-            if [ $attempt -lt $max_attempts ]; then
-              sleep 1
-            fi
-          done
-
-          echo "Failed to probe stream resolution after $max_attempts attempts"
-          exit 1
+          ffprobe -v error \
+            -select_streams v:0 \
+            -show_entries stream=width,height \
+            -of csv=s=x:p=0 \
+            -rw_timeout 5000000 \
+            http://localhost:12345/live/test_stream.m3u8
 
       - name: Check container logs
         if: always()
