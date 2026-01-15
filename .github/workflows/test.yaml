@@ -34,13 +34,7 @@ jobs:
           tags: docker-web-recorder:test
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
-      - name: Determine RTMP host
-        id: rtmp-host
-        shell: bash
-        run: |
-          echo "rtmp_host=localhost" >> $GITHUB_OUTPUT
-          echo "network_mode=host" >> $GITHUB_OUTPUT
+          outputs: type=docker
 
       - name: Wait for nginx-rtmp to be ready
         shell: bash
@@ -62,27 +56,15 @@ jobs:
       - name: Start recorder container
         shell: bash
         run: |
-          if [ "${{ steps.rtmp-host.outputs.network_mode }}" = "host" ]; then
-            docker run -d \
-              --name web-recorder \
-              --network host \
-              -e OUTPUT=rtmp://${{ steps.rtmp-host.outputs.rtmp_host }}:1935/live/test_stream \
-              -e URL=https://example.com \
-              -e RESOLUTION=1280x720 \
-              -e DURATION=5 \
-              -e RATE=1000 \
-              docker-web-recorder:test
-          else
-            docker run -d \
-              --name web-recorder \
-              --add-host=host.docker.internal:host-gateway \
-              -e OUTPUT=rtmp://${{ steps.rtmp-host.outputs.rtmp_host }}:1935/live/test_stream \
-              -e URL=https://example.com \
-              -e RESOLUTION=1280x720 \
-              -e DURATION=5 \
-              -e RATE=1000 \
-              docker-web-recorder:test
-          fi
+          docker run -d \
+            --name web-recorder \
+            --network host \
+            -e OUTPUT=rtmp://localhost:1935/live/test_stream \
+            -e URL=https://example.com \
+            -e RESOLUTION=1280x720 \
+            -e DURATION=5 \
+            -e RATE=1000 \
+            docker-web-recorder:test
 
       - name: Monitor stream for 5 seconds
         shell: bash
