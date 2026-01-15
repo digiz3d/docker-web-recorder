@@ -67,7 +67,7 @@ jobs:
 
           for i in {1..15}; do
             echo "Checking stream status (attempt $i/5)..."
-            stat_response=$(curl -s http://localhost:8080/stat || echo "")
+            stat_response=$(curl -s http://localhost:12345/stat || echo "")
             
             if echo "$stat_response" | grep -q "test_stream"; then
               echo "Stream detected in nginx-rtmp stats!"
@@ -80,7 +80,7 @@ jobs:
 
           echo "Stream not detected in nginx-rtmp stats"
           echo "nginx-rtmp stats:"
-          curl -s http://localhost:8080/stat || echo "Failed to get stats"
+          curl -s http://localhost:12345/stat || echo "Failed to get stats"
           exit 1
 
       - name: Check container logs
