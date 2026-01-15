@@ -39,7 +39,7 @@ jobs:
           timeout=30
           elapsed=0
           while [ $elapsed -lt $timeout ]; do
-            if curl -f http://localhost:${{ job.services.nginx.ports['80/tcp'] }}/stat > /dev/null 2>&1; then
+            if curl -f http://localhost:${{ job.services.nginx.ports['80'] }}/stat > /dev/null 2>&1; then
               echo "nginx-rtmp is ready"
               exit 0
             fi
@@ -56,7 +56,7 @@ jobs:
           docker run -d \
             --name web-recorder \
             --network host \
-            -e OUTPUT=rtmp://localhost:${{ job.services.nginx.ports['1935/tcp'] }}/stream/${{ env.STREAM_ID }} \
+            -e OUTPUT=rtmp://localhost:${{ job.services.nginx.ports['1935'] }}/stream/${{ env.STREAM_ID }} \
             -e URL=https://httpbin.org \
             -e RESOLUTION=1280x720 \
             -e RATE=1000 \
@@ -70,7 +70,7 @@ jobs:
 
           for i in {1..15}; do
             echo "Checking stream status (attempt $i/5)..."
-            stat_response=$(curl -s http://localhost:${{ job.services.nginx.ports['80/tcp'] }}/stat || echo "")
+            stat_response=$(curl -s http://localhost:${{ job.services.nginx.ports['80'] }}/stat || echo "")
             
             if echo "$stat_response" | grep -q "${{ env.STREAM_ID }}"; then
               echo "Stream detected in nginx-rtmp stats!"
@@ -83,7 +83,7 @@ jobs:
 
           echo "Stream not detected in nginx-rtmp stats"
           echo "nginx-rtmp stats:"
-          curl -s http://localhost:${{ job.services.nginx.ports['80/tcp'] }}/stat || echo "Failed to get stats"
+          curl -s http://localhost:${{ job.services.nginx.ports['80'] }}/stat || echo "Failed to get stats"
           exit 1
 
       - name: Check container logs
