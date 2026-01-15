@@ -59,7 +59,6 @@ jobs:
             -e OUTPUT=rtmp://localhost:1935/stream/test_stream \
             -e URL=https://httpbin.org \
             -e RESOLUTION=1280x720 \
-            -e DURATION=5 \
             -e RATE=1000 \
             docker-web-recorder:test
 
