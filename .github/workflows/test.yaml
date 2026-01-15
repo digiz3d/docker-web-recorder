@@ -20,14 +20,11 @@ jobs:
           - 8080:80
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+      - uses: actions/checkout@v6
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
-        uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v5
         with:
           context: .
           push: false
@@ -66,6 +63,8 @@ jobs:
             -e RATE=1000 \
             docker-web-recorder:test
 
+      - uses: FedericoCarboni/setup-ffmpeg@v3
+
       - name: Monitor stream for 5 seconds
         shell: bash
         run: |
@@ -90,6 +89,41 @@ jobs:
           echo "Stream not detected in nginx-rtmp stats"
           echo "nginx-rtmp stats:"
           curl -s http://localhost:8080/stat || echo "Failed to get stats"
+          exit 1
+
+      - name: Check video stream resolution
+        shell: bash
+        run: |
+          echo "Checking video stream resolution..."
+          expected_resolution="1280x720"
+          max_attempts=10
+          attempt=0
+
+          while [ $attempt -lt $max_attempts ]; do
+            attempt=$((attempt + 1))
+            echo "Attempt $attempt/$max_attempts to probe stream..."
+            
+            actual_resolution=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 -timeout 5000000 rtmp://localhost:1935/stream/test_stream 2>&1 || echo "")
+            
+            if [ -n "$actual_resolution" ] && [ "$actual_resolution" != "" ]; then
+              echo "Detected resolution: $actual_resolution"
+              echo "Expected resolution: $expected_resolution"
+              
+              if [ "$actual_resolution" = "$expected_resolution" ]; then
+                echo "✓ Resolution matches expected value: $expected_resolution"
+                exit 0
+              else
+                echo "✗ Resolution mismatch! Expected: $expected_resolution, Got: $actual_resolution"
+                exit 1
+              fi
+            fi
+            
+            if [ $attempt -lt $max_attempts ]; then
+              sleep 1
+            fi
+          done
+
+          echo "Failed to probe stream resolution after $max_attempts attempts"
           exit 1
 
       - name: Check container logs
