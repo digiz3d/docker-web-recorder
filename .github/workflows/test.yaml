@@ -102,7 +102,14 @@ jobs:
             attempt=$((attempt + 1))
             echo "Attempt $attempt/$max_attempts to probe stream..."
             
-            actual_resolution=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 -timeout 5000000 rtmp://localhost:1935/stream/test_stream 2>&1 || echo "")
+            actual_resolution=$(
+              ffprobe -v error \
+                -select_streams v:0 \
+                -show_entries stream=width,height \
+                -of csv=s=x:p=0 \
+                -rw_timeout 5000000 \
+                http://localhost:1935/live/test_stream.m3u8 2>&1 | head -n 1
+            )
             
             if [ -n "$actual_resolution" ] && [ "$actual_resolution" != "" ]; then
               echo "Detected resolution: $actual_resolution"
