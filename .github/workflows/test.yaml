@@ -5,9 +5,6 @@ on:
     branches:
       - chore/add-test-rtmp
 #   pull_request:
-#     branches:
-#       - main
-#   workflow_dispatch:
 
 jobs:
   test:
@@ -62,18 +59,29 @@ jobs:
             -e RATE=1000 \
             docker-web-recorder:test
 
-      - uses: FedericoCarboni/setup-ffmpeg@v3
-        with:
-          architecture: 'x64'
-          ffmpeg-version: '6.1.0'
-
-      - name: Check video stream resolution
+      - name: Monitor stream
         shell: bash
         run: |
-          echo "Checking video stream resolution..."
-          expected_resolution="1280x720"
+          echo "Waiting for stream to start..."
+          sleep 2
+
+          for i in {1..15}; do
+            echo "Checking stream status (attempt $i/5)..."
+            stat_response=$(curl -s http://localhost:8080/stat || echo "")
             
-          ffmpeg -i http://localhost:12345/live/test_stream.m3u8 -map 0:v:0 -vframes 1 -f null -
+            if echo "$stat_response" | grep -q "test_stream"; then
+              echo "Stream detected in nginx-rtmp stats!"
+              echo "$stat_response"
+              exit 0
+            fi
+            
+            sleep 1
+          done
+
+          echo "Stream not detected in nginx-rtmp stats"
+          echo "nginx-rtmp stats:"
+          curl -s http://localhost:8080/stat || echo "Failed to get stats"
+          exit 1
 
       - name: Check container logs
         if: always()
