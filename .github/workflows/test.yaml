@@ -17,7 +17,7 @@ jobs:
         image: alfg/nginx-rtmp:latest
         ports:
           - 1935:1935
-          - 8080:8080
+          - 8080:80
 
     steps:
       - name: Checkout code
