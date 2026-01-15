@@ -3,8 +3,8 @@ name: Test RTMP Stream
 on:
   push:
     branches:
-      - chore/add-test-rtmp
-#   pull_request:
+      - main
+  pull_request:
 
 env:
   STREAM_ID: test_stream
