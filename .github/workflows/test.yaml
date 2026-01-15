@@ -108,7 +108,7 @@ jobs:
                 -show_entries stream=width,height \
                 -of csv=s=x:p=0 \
                 -rw_timeout 5000000 \
-                http://localhost:1935/live/test_stream.m3u8 2>&1 | head -n 1
+                http://localhost:8080/live/test_stream.m3u8 2>&1 | head -n 1
             )
             
             if [ -n "$actual_resolution" ] && [ "$actual_resolution" != "" ]; then
