@@ -63,6 +63,9 @@ jobs:
             docker-web-recorder:test
 
       - uses: FedericoCarboni/setup-ffmpeg@v3
+        with:
+          architecture: 'x64'
+          ffmpeg-version: '6.1.0'
 
       - name: Check video stream resolution
         shell: bash
