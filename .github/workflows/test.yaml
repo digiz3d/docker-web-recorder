@@ -59,7 +59,7 @@ jobs:
           docker run -d \
             --name web-recorder \
             --network host \
-            -e OUTPUT=rtmp://localhost:1935/live/test_stream \
+            -e OUTPUT=rtmp://localhost:1935/stream/test_stream \
             -e URL=https://example.com \
             -e RESOLUTION=1280x720 \
             -e DURATION=5 \
