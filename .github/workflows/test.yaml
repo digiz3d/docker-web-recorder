@@ -73,11 +73,7 @@ jobs:
           echo "Checking video stream resolution..."
           expected_resolution="1280x720"
             
-          ffprobe \
-            -select_streams v:0 \
-            -show_entries stream=width,height \
-            -of csv=s=x:p=0 \
-            http://localhost:12345/live/test_stream.m3u8
+          ffmpeg -i http://localhost:12345/live/test_stream.m3u8 -map 0:v:0 -vframes 1 -f null -
 
       - name: Check container logs
         if: always()
