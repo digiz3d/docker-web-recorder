@@ -60,7 +60,7 @@ jobs:
             --name web-recorder \
             --network host \
             -e OUTPUT=rtmp://localhost:1935/stream/test_stream \
-            -e URL=https://example.com \
+            -e URL=https://httpbin.org \
             -e RESOLUTION=1280x720 \
             -e DURATION=5 \
             -e RATE=1000 \
