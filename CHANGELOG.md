@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/digiz3d/docker-web-recorder/compare/v1.4.0...v1.4.1) (2026-02-08)
+
+
+### Bug Fixes
+
+* properly build Docker image on Windows and block browser notifications ([#119](https://github.com/digiz3d/docker-web-recorder/issues/119)) ([25c4fe6](https://github.com/digiz3d/docker-web-recorder/commit/25c4fe61a15cb80f50104aeb68caba6e930f15af))
+
 ## [1.4.0](https://github.com/digiz3d/docker-web-recorder/compare/v1.3.0...v1.4.0) (2025-02-25)
 
 
