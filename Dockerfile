@@ -1,4 +1,4 @@
-FROM node:22.14.0-alpine3.21
+FROM node:22.23.1-alpine3.24
 
 RUN apk update && apk upgrade --available && apk add --no-cache \
     pulseaudio \

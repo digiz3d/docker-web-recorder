@@ -45,6 +45,7 @@ For instance if you plan on streaming to Twitch, set the OUTPUT to something lik
 
 `DISABLE_AUDIO` optional. If set to `true`, the audio will be disabled. Defaults to `false`.  
 `DURATION` is the length of the recording. No value means infinite  
+`FPS` is the video capture frame rate passed to FFmpeg as `-r`. Defaults to `30`.  
 `GOOGLE_APPLICATION_CREDENTIALS` optional. Can be used instead of Application Default Credentials when using GCS.  
 `OUTPUT` is the output file/stream. Can either start with `rtmp://`, `gs://` or end with `.mp4`. Defaults to `output.mp4`  
 `RATE` is the constant bitrate (CBR) used for the video. Defaults to `6000`  
