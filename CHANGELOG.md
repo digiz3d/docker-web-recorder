@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/digiz3d/docker-web-recorder/compare/v1.4.1...v1.4.2) (2026-06-29)
+
+
+### Bug Fixes
+
+* document FPS usage and bump node ([#126](https://github.com/digiz3d/docker-web-recorder/issues/126)) ([626220c](https://github.com/digiz3d/docker-web-recorder/commit/626220c7ae4bf0920c4312be7a8664b57adfeffe))
+
 ## [1.4.1](https://github.com/digiz3d/docker-web-recorder/compare/v1.4.0...v1.4.1) (2026-02-08)
 
 
